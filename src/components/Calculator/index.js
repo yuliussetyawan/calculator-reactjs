@@ -2,7 +2,10 @@ import React, {useState} from "react";
 import { Container, Current, Previous, Screen, Button } from "./Styled";
 
 export default function Calculator() {
+  const [operation, setOperation] = useState('');
   const [current, setCurrent] = useState('');
+  const [previous, setPrevious] = useState('');
+
   const appendValue = (el) => {
     const value = el.target.getAttribute('data');
     // ignore period when already declared
@@ -11,14 +14,24 @@ export default function Calculator() {
     
   }
 
+  const handleDelete = () =>{
+    setCurrent(String(current).slice(0,-1));
+  }
+
+  const handleAllClear = () => {
+    setCurrent('');
+    setOperation('');
+    setPrevious('');
+  }
+
   return (
     <Container>
       <Screen>
-        <Previous>10</Previous>
+        <Previous>{previous} {operation}</Previous>
         <Current>{current}</Current>
       </Screen>
-      <Button control gridSpan={2}>AC</Button>
-      <Button control>DEL</Button>
+      <Button onClick={handleAllClear} control gridSpan={2}>AC</Button>
+      <Button onClick={handleDelete} control>DEL</Button>
       <Button operation>÷</Button>
       <Button data={'7'} onClick={appendValue}>7</Button>
       <Button data={'8'} onClick={appendValue}>8</Button>
